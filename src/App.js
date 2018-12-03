@@ -1,18 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import TodoList from './TodoList';
 
-class App extends Component {
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      term: '',
+      items: []
+    };
+  }
+
+  onChange = (event) => {
+    this.setState({ term: event.target.value });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    this.setState({
+      term: '',
+      items: [...this.state.items, this.state.term]
+    });
+  }
+
   render() {
     return (
-      <div className="TodoList">
-      <form>
-            <input placeholder="Task" />
-            <button type="submit"> Add Task </button>
-          </form>
+      <div>
+        <form className="App" onSubmit={this.onSubmit}>
+          <input value={this.state.term} onChange={this.onChange} />
+          <button>Add Task</button>
+        </form>
+        <span>ToDo List:</span>
+        <TodoList items={this.state.items} />
       </div>
     );
   }
 }
-
-export default App;
